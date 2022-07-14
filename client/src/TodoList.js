@@ -55,6 +55,15 @@ export default class TodoList extends React.Component {
     this.setState({ todos: newTodos });
   };
 
+  deleteTodo = async (id) => {
+    // update to db
+    let res = await axios.delete(`/api/todos/${id}`)
+    // update ui
+    let newTodos = this.state.todos.filter((t) => t.id !== id);
+    console.log(newTodos)
+    this.setState({ todos: newTodos });
+  };
+
   render() {
     return (
       <Container>
@@ -81,6 +90,7 @@ export default class TodoList extends React.Component {
                 key={t.id}
               >
                 {t.name}
+                <Button onClick={()=>this.deleteTodo(t.id)}>delete</Button>
               </List.Item>
             ))}
           </List>
